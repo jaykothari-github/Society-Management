@@ -6,7 +6,9 @@
             password : $('#password').val(),
             cpassword : $('#cpassword').val()
         };
-
+        $('#wait').html('OTP will send on your email')
+        $('#email_val').html('')
+        $('#pass_val').html('')
         $.ajax({
             url : '{% url "otp" %}',
             method : 'POST',
@@ -14,17 +16,22 @@
             success : function(response){
                 if(response.msg){
                     $('#email_val').html(response.msg)
+                    $('#wait').html('')
                 }else{
                     $('#email_val').html('')
 
                 }
                 if (response.pass_msg){
                     $('#pass_val').html(response.pass_msg)
+                    $('#wait').html('')
+
                 }else{
                     $('#pass_val').html('')
+                }
+                if(response.otp){
+                    alert(response.otp)
 
                 }
-
             }
         })
 
