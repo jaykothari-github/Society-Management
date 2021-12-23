@@ -36,4 +36,25 @@
         })
 
     })
+
+    $('#reset_password').click(function(){
+        let data = {
+            csrfmiddlewaretoken : $('input[name=csrfmiddlewaretoken]').val() ,
+            email : $('#email').val()
+        };
+        console.log('click')
+        $('#email_val').html('Password will sent on your email')
+        $.ajax({
+            url : '{% url "forgot-password" %}',
+            method : "POST",
+            data : data,
+            success : function(response){
+                if(response.sent){
+                    alert('Email sent')
+                }else{
+                    $('#email_val').html('Email might be not register')
+                }
+            }
+        })
+    })
 </script>

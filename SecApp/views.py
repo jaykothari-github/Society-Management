@@ -1,15 +1,31 @@
 from django.http.response import Http404, HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
-from random import randrange
+from random import randrange, choices
 
 
 # Create your views here.
 
 def signin(request):
-    return render(request,'sign-in.html')
+    try: 
+        uid = SecUser.objects.get(request.session['email'])
+        return  render(request,'index.html')
+    except:
+        if request.method == 'POST':
+            try:
+                uid = SecUser.objects.get(email=request.POST['email'])
+                if uid.password == request.POST['password']:
+                    request.session['email'] = request.POST['email']
+                    return render(request,'index.html',{'uid':uid})
+                msg = 'Password is incorrect'
+                return render(request,'sign-in.html',{'msg':msg})
+            except:
+                msg = 'Email is not register'
+                return render(request,'sign-in.html',{'msg':msg})
+
+        return render(request,'sign-in.html')
 
 def signup(request):
     if request.method == 'POST':
@@ -54,3 +70,27 @@ def OTP(request):
 
     else:
         return JsonResponse({'msg':'Please Enter a valid Email'})
+
+def logout(request):
+    del request.session['email']
+    return redirect('sign-in')
+
+def forgot_password(request):
+    if request.method == 'POST':
+        try:
+            uid = SecUser.objects.get(email=request.POST['email'])
+            s = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@.1234567890'
+            password = ''.join(choices(s,k=8))
+            uid.password = password
+            uid.save()
+            subject = 'Welcome to Society Management App'
+            message = f"""Hello {request.POST["email"]}, 
+            Your new password is {password}. 
+            Keep it secret and please change it after login."""
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [request.POST['email'], ]
+            send_mail( subject, message, email_from, recipient_list )
+            return JsonResponse({'sent':'Sent success'})
+        except:
+            return JsonResponse('Nothing',safe=False)
+    return render(request,'forgot-password.html')
