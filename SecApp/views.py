@@ -10,7 +10,7 @@ from random import randrange, choices
 
 def signin(request):
     try: 
-        uid = SecUser.objects.get(request.session['email'])
+        uid = SecUser.objects.get(email=request.session['email'])
         return  render(request,'index.html')
     except:
         if request.method == 'POST':
@@ -94,3 +94,23 @@ def forgot_password(request):
         except:
             return JsonResponse('Nothing',safe=False)
     return render(request,'forgot-password.html')
+
+
+def index(request):
+    try:
+        uid = SecUser.objects.get(email=request.session['email'])
+        return render(request,'index.html',{'uid':uid})
+
+    except:
+        return render(request,'sign-in.html',{'msg':"session has been expired"})
+
+def profile(request):
+    uid = SecUser.objects.get(email=request.session['email'])
+    if request.method == 'POST':
+        uid.name = request.POST['name']
+        uid.mobile = request.POST['mobile']
+        if 'pic' in request.FILES:
+            uid.pic = request.FILES['pic']
+        uid.save()
+        return render(request,'profile.html',{'uid':uid,'msg':'Profile Updated'})
+    return render(request,'profile.html',{'uid':uid})

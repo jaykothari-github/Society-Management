@@ -7,4 +7,6 @@ urlpatterns = [
     path('otp/',views.OTP,name='otp'),
     path('logout/',views.logout,name='logout'),
     path('forgot-password/',views.forgot_password,name='forgot-password'),
+    path('index/',views.index,name='index'),
+    path('profile/',views.profile,name='profile'),
 ]
