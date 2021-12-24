@@ -103,14 +103,16 @@
           </a>
         </li>
         {% endblock %}
+        {% block password %}
         <li class="nav-item">
-          <a class="nav-link text-white " href="./pages/sign-in.html">
+          <a class="nav-link text-white " href="{% url 'change-password' %}">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">login</i>
+              <i class="fa fa-lock"></i>
             </div>
-            <span class="nav-link-text ms-1">Sign In</span>
+            <span class="nav-link-text ms-1">Change Password</span>
           </a>
         </li>
+        {% endblock %}
         <li class="nav-item">
           <a class="nav-link text-white " href="./pages/sign-up.html">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
@@ -209,16 +211,16 @@
         <div class="col-lg-6">
           <ul class="nav nav-footer justify-content-center justify-content-lg-end">
             <li class="nav-item">
-              <a href="" class="nav-link text-muted" target="_blank">Creative Tim</a>
+              <a href="" class="nav-link text-muted">Creative Tim</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link text-muted" target="_blank">About Us</a>
+              <a href="" class="nav-link text-muted">About Us</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link text-muted" target="_blank">Blog</a>
+              <a href="" class="nav-link text-muted">Blog</a>
             </li>
             <li class="nav-item">
-              <a href="" class="nav-link pe-0 text-muted" target="_blank">License</a>
+              <a href="" class="nav-link pe-0 text-muted">License</a>
             </li>
           </ul>
         </div>

@@ -1,3 +1,4 @@
+from django.db.models.manager import EmptyManager
 from django.http.response import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from .models import *
@@ -114,3 +115,17 @@ def profile(request):
         uid.save()
         return render(request,'profile.html',{'uid':uid,'msg':'Profile Updated'})
     return render(request,'profile.html',{'uid':uid})
+
+def change_password(request):
+    uid = SecUser.objects.get(email=request.session['email'])
+    if request.method == 'POST':
+        if request.POST['oldpass'] == uid.password:
+            if len(request.POST['password']) > 7:
+                if request.POST['password'] == request.POST['cpassword']:
+                    uid.password = request.POST['password']
+                    uid.save()
+                    return render(request,'change-password.html',{'msg':'Password has been updated','uid':uid})
+                return render(request,'change-password.html',{'msg':'Password and Confirm Password are not same','uid':uid})
+            return render(request,'change-password.html',{'uid':uid,'msg':'Password Length should be atleast 8'})
+        return render(request,'change-password.html',{'uid':uid,'msg':'Old Password is incorrect'})
+    return render(request,'change-password.html',{'uid':uid})
