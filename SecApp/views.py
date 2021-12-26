@@ -129,3 +129,25 @@ def change_password(request):
             return render(request,'change-password.html',{'uid':uid,'msg':'Password Length should be atleast 8'})
         return render(request,'change-password.html',{'uid':uid,'msg':'Old Password is incorrect'})
     return render(request,'change-password.html',{'uid':uid})
+
+def emergency(request):
+    uid = SecUser.objects.get(email = request.session['email'])
+    contacts = Emergency.objects.all()[::-1]
+    if request.method == 'POST':
+        Emergency.objects.create(
+            uid= uid,
+            name=request.POST['name'],
+            mobile = request.POST['mobile'],
+            email = request.POST['email'],
+            occupation = request.POST['occupation'],
+            des = request.POST['des']
+        )
+        return render(request,'emergency.html',{'uid':uid,'contacts':contacts,"msg":"Contact has been added"})
+
+    return render(request,'emergency.html',{'uid':uid,'contacts':contacts})
+
+
+def del_emergency(request,pk):
+    d = Emergency.objects.get(id=pk)
+    d.delete()
+    return redirect('emergency')

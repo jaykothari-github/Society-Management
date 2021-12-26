@@ -7,3 +7,9 @@ from SecApp.models import *
 class ModelSecUser(admin.ModelAdmin):
 
     list_display = ['name','email','mobile','id']
+
+@admin.register(Emergency)
+class ModelEmergency(admin.ModelAdmin):
+
+    list_display = ['name','email','mobile','occupation']
+

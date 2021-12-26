@@ -12,3 +12,23 @@ class SecUser(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Emergency(models.Model):
+
+    cate_choice = (
+        ('Doctor','Doctor'),
+        ('Plumber','Plumber'),
+        ('Electrician','Electrician'),
+        ('Cate','Cate'),
+    )
+
+    uid = models.ForeignKey(SecUser,on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    mobile = models.CharField(max_length=13)
+    email = models.EmailField()
+    occupation = models.CharField(max_length=50,choices=cate_choice)
+    des = models.TextField()
+
+    def __str__(self):
+        return self.name + '   ' + self.occupation 

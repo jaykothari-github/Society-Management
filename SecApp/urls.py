@@ -10,4 +10,6 @@ urlpatterns = [
     path('index/',views.index,name='index'),
     path('profile/',views.profile,name='profile'),
     path('change-password/',views.change_password,name='change-password'),
+    path('emergency/',views.emergency,name='emergency'),
+    path('delete-emergency/<int:pk>',views.del_emergency,name='delete-emergency'),
 ]
