@@ -5,6 +5,7 @@ from .models import *
 from django.conf import settings
 from django.core.mail import send_mail
 from random import randrange, choices
+from MemberApp import models as mm
 
 
 # Create your views here.
@@ -151,3 +152,47 @@ def del_emergency(request,pk):
     d = Emergency.objects.get(id=pk)
     d.delete()
     return redirect('emergency')
+
+def add_member(request):
+    uid = SecUser.objects.get(email=request.session['email'])
+    members = mm.Member.objects.all().order_by('flat_no')
+    if request.method == 'POST':
+        try:
+            mm.Member.objects.get(email=request.POST['email'])
+            msg = 'Email is Already register'
+            return render(request,'add-member.html',{'uid':uid,'members':members,'msg':msg})
+
+        except:
+            s = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@.1234567890'
+            password = ''.join(choices(s,k=8))
+            subject = 'Welcome to Society Management App'
+            message = f"""Hello {request.POST["email"]}, 
+            Your Account is created for Society Network. 
+            Your login credentials are 
+
+            Username : {request.POST['email']}
+            Password : {password}
+            Keep it secret and please change password after login."""
+            email_from = settings.EMAIL_HOST_USER
+            recipient_list = [request.POST['email'], ]
+            send_mail( subject, message, email_from, recipient_list )
+
+            mm.Member.objects.create(
+                fname = request.POST['fname'],
+                lname = request.POST['lname'],
+                email = request.POST['email'],
+                mobile = request.POST['mobile'],
+                doc = request.POST['doc'],
+                doc_number = request.POST['dnumber'],
+                flat_no = request.POST['flat_no'],
+                address = request.POST['address'],
+                password = password,
+                verify = True if 'verify' in request.POST else False
+            )
+            return render(request,'add-member.html',{'uid':uid,'members':members,'msg':'User Created'})
+    return render(request,'add-member.html',{'uid':uid,'members':members})
+
+def del_member(request,pk):
+    member = mm.Member.objects.get(id=pk)
+    member.delete()
+    return redirect('add-member')

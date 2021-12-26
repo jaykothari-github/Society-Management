@@ -1,0 +1,174 @@
+{% extends 'sec-header.html' %}
+{% load static %}
+
+{% block title %}
+<title>Add Member</title>
+{% endblock %}
+
+
+{% block add_member %}
+<li class="nav-item">
+  <a class="nav-link text-white  active bg-gradient-primary" href="">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+        <i class="fa fa-user-tag"></i>
+      </div>
+      <span class="nav-link-text ms-1">Add Members</span>
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div class="container-fluid px-2 px-md-4">
+    
+    <div class="card card-body mx-3 mx-md-4 mt-n6">
+      <div class="row gx-4 mb-2">
+        
+        <div class="col-auto my-auto">
+          <div class="h-100">
+            <h5 class="mb-1" style="margin-left: 50px; margin-top: 50px;">
+              Add Member
+            </h5>
+            
+          </div>
+        </div>
+        
+      </div>
+      <p style="margin-left: 100px; color: red;">{{msg}}</p>
+
+      <div style="margin: 50px;">
+      <form action="{% url 'add-member' %}" method="POST">
+          {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="exampleInputPassword1"><b>First Name</b></label>
+                <input type="text" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="fname" id="exampleInputPassword1" placeholder="Member's First Name..." required>
+            </div>
+            <div class="form-group col-6">
+                <label for="exampleInputPassword1"><b>Last Name</b></label>
+                <input type="text" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="lname" id="exampleInputPassword1" placeholder="Member's Last Name..." required>
+            </div>
+        </div><br><br>
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="exampleInputPassword1"><b>Mobile</b></label>
+                <input type="text" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="mobile" id="exampleInputPassword1" placeholder="Member's Mobile..." required>
+            </div>
+            <div class="form-group col-6">
+                <label for="exampleInputEmail1"><b>Email Address</b></label>
+                <input type="email" name="email"  class="form-control" id="exampleInputEmail1" style="background-color: rgb(243, 229, 229); padding-left: 20px;" aria-describedby="emailHelp" required placeholder="Member's Email">
+            </div>
+        </div><br><br>
+
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="exampleInputPassword1"><b>Flat No:</b></label>
+                <input type="text" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="flat_no" id="exampleInputPassword1" placeholder="Member's Flat Number..." required>
+            </div>
+            <div class="form-group col-6">
+                <label for="exampleInputEmail1"><b>Another Address</b></label>
+                <input type="text" name="address"  class="form-control" id="exampleInputEmail1" style="background-color: rgb(243, 229, 229); padding-left: 20px;" aria-describedby="emailHelp" required placeholder="Member's Another Address">
+            </div>
+        </div><br><br>
+
+        <div class="row">
+            <div class="form-group col-3">
+                <label for="exampleInputEmail1"><b>Select occupation : </b></label>
+                <select name="doc" style="background-color: rgb(243, 229, 229); padding-left: 20px;" class="form-control" id=""  required>
+                    <option value="" selected>--</option>
+                    <option value="Aadhar">Aadhar Card</option>
+                    <option value="PAN">PAN number</option>
+                    <option value="DL">Driving License</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group col-3">
+                <label for="exampleInputEmail1"><b>Is it Verified ?</b></label><br>
+                <label class="switch">
+                    <input type="checkbox" value="True" name="verify" style="margin-left: 20px;">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-group col-6">
+                <label for="exampleInputPassword1"><b>Document Number</b></label>
+                <input type="text" class="form-control"  style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="dnumber" id="exampleInputPassword1" placeholder="Document Number..." required>
+            </div>
+        </div><br><br><br>
+        
+        <button type="submit" class="btn btn-primary"><i class="fa fa-user-tag"></i> &nbsp;Add Member</button>
+      </form>
+
+    </div>
+    </div>
+    <br><br>
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">Members List</h6>
+          </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 Center"><i class="fa fa-user"></i> Name</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Flat number</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Mobile</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Address</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Verification</th>
+                  <th class="text-secondary opacity-7" colspan="2">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for one in members %}
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center" style="margin-left: 10px;">
+                        <h6 class="mb-0 text-sm">{{one.fname}} {{one.lname}}</h6>
+                        <a href="mailto:{{one.email}}"><p class="text-xs text-secondary mb-0">{{one.email}}</p></a>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">{{one.flat_no}}</p>
+                    <p class="text-xs text-secondary mb-0"></p>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <a href="tel:{{one.mobile}}"><span class="badge badge-sm bg-gradient-success">{{one.mobile}}</span></a>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{one.address}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                      {% if one.verify %}
+                        <i class="fa fa-check" style="color: rgb(8, 236, 19);"></i>
+                      {% else %}
+                        <i class="fa fa-close" style="color: red;"></i>
+                      {% endif %}
+                  </td>
+                  <td class="align-middle">
+                    <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                      <i class="fa fa-edit"></i>
+                    </a>
+                  </td>
+                  <td class="align-middle">
+                    <a href="{% url 'delete-member' one.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete user">
+                      <i class="fa fa-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+{% endblock %}

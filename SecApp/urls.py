@@ -12,4 +12,6 @@ urlpatterns = [
     path('change-password/',views.change_password,name='change-password'),
     path('emergency/',views.emergency,name='emergency'),
     path('delete-emergency/<int:pk>',views.del_emergency,name='delete-emergency'),
+    path('delete-member/<int:pk>',views.del_member,name='delete-member'),
+    path('add-member/',views.add_member, name='add-member'),
 ]
