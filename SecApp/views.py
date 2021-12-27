@@ -14,14 +14,17 @@ def signin(request):
     try: 
         uid = SecUser.objects.get(email=request.session['email'])
         mem_count = mm.Member.objects.all().count()
-        return render(request,'index.html',{'uid':uid,'mem_count':mem_count})
+        event_count = mm.Event.objects.all().count()
+        return render(request,'index.html',{'uid':uid,'mem_count':mem_count,'event_count':event_count})
     except:
         if request.method == 'POST':
             try:
                 uid = SecUser.objects.get(email=request.POST['email'])
                 if uid.password == request.POST['password']:
                     request.session['email'] = request.POST['email']
-                    return render(request,'index.html',{'uid':uid})
+                    mem_count = mm.Member.objects.all().count()
+                    event_count = mm.Event.objects.all().count()
+                    return render(request,'index.html',{'uid':uid,'mem_count':mem_count,'event_count':event_count})
                 msg = 'Password is incorrect'
                 return render(request,'sign-in.html',{'msg':msg})
             except:
@@ -103,7 +106,8 @@ def index(request):
     try:
         uid = SecUser.objects.get(email=request.session['email'])
         mem_count = mm.Member.objects.all().count()
-        return render(request,'index.html',{'uid':uid,'mem_count':mem_count})
+        event_count = mm.Event.objects.all().count()
+        return render(request,'index.html',{'uid':uid,'mem_count':mem_count,'event_count':event_count})
 
     except:
         return render(request,'sign-in.html',{'msg':"session has been expired"})
@@ -220,3 +224,51 @@ def edit_member(request,pk):
         return redirect('add-member')
     return render(request,'edit-member.html',{'uid':uid,'member':member})
 
+def add_event(request):
+    uid = SecUser.objects.get(email=request.session['email'])
+    events = mm.Event.objects.all()[::-1]
+
+    if request.method == 'POST':
+        mm.Event.objects.create(
+            uid = uid,
+            event_name = request.POST['ename'],
+            event_des = request.POST['edes'],
+            event_at = request.POST['edate'],
+            pic = request.FILES['pic'] if 'pic' in request.FILES else None
+        )
+        events = mm.Event.objects.all()[::-1]
+        subject = 'New Event Added into Society'
+        message = f"""Hello User!!, 
+        New Event has schedule in your society. Have you gone through it?? 
+        Event Details are : 
+        Event name : {request.POST['ename']}
+        Event date : {request.POST['edate']}
+
+        Event Description : {request.POST['edes']}
+        ---------------------------------------------
+        and Posted by : {uid.name} / secratory of Society."""
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = list(mm.Member.objects.values_list('email',flat=True))
+        send_mail( subject, message, email_from, recipient_list )
+        return render(request,'add-event.html',{'uid':uid,'events':events,'msg':'Event Added Successfully'})
+    return render(request,'add-event.html',{'uid':uid,'events':events})
+
+def edit_event(request,pk):
+    uid = SecUser.objects.get(email=request.session['email'])
+    event = mm.Event.objects.get(id=pk)
+    event_at = str(event.event_at)
+    if request.method == 'POST':
+        event.uid = uid
+        event.event_name = request.POST['ename']
+        event.event_des = request.POST['edes']
+        event.event_at = request.POST['edate']
+        event.pic = None if 'pic' not in request.FILES else request.FILES['pic'] 
+        event.save()
+        events = mm.Event.objects.all()[::-1]
+        return render(request,'add-event.html',{'uid':uid,'msg':'Event Updated','events':events})
+    return render(request,'edit-event.html',{'uid':uid,'event':event,'event_at':event_at})
+
+def delete_event(request,pk):
+    event = mm.Event.objects.get(id=pk)
+    event.delete()
+    return redirect('add-event')

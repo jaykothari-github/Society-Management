@@ -1,0 +1,87 @@
+{% extends 'sec-header.html' %}
+{% load static %}
+
+{% block title %}
+<title>Edit Event</title>
+{% endblock %}
+
+{% block event %}
+<li class="nav-item">
+  <a class="nav-link text-white  active bg-gradient-primary" href="">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+      <!-- <i class="material-icons opacity-10">receipt_long</i> -->
+      <i class="fa fa-calendar-check-o"></i>
+    </div>
+    <span class="nav-link-text ms-1">Manage Events</span>
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div class="container-fluid px-2 px-md-4">
+    
+    <div class="card card-body mx-3 mx-md-4 mt-n6">
+      <div class="row gx-4 mb-2">
+        
+        <div class="col-auto my-auto">
+          <div class="h-100">
+            <h5 class="mb-1" style="margin-left: 50px; margin-top: 50px;">
+              Editing Event : <span style="color: pink;"> {{event.event_name}}</span>. On : <span style="color: pink;">{{event.event_at}}</span>
+            </h5>
+            
+          </div>
+        </div>
+        
+      </div>
+      <p style="margin-left: 100px; color: red;">{{msg}}</p>
+
+      <div style="margin: 50px;">
+        <form action="{% url 'edit-event' event.id %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+          <div class="row">
+              <div class="form-group col-6">
+                  <label for="exampleInputPassword1"><b>Event Title</b></label>
+                  <input type="text" class="form-control" value="{{event.event_name}}" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="ename" id="exampleInputPassword1" placeholder="Event Name..." required>
+              </div>
+              <div class="form-group col-6">
+                  <label for="exampleInputPassword1"><b>Event Date</b></label>
+                  <input type="date" class="form-control" value="{{event_at}}" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="edate" id="exampleInputPassword1" placeholder="Event Date..." required>
+              </div>
+          </div><br><br>
+          <div class="row">
+              <div class="form-group col-12">
+                  <label for="exampleInputPassword1"><b>Description :</b></label>
+                  <textarea name="edes" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" placeholder="Event Description..." id="" cols="30" rows="5">{{event.event_des}}</textarea>
+              </div>
+          </div><br><br>
+  
+          <div class="row">
+              <div class="form-group col-6">
+                  <label for="exampleInputPassword1"><b>Event Pic : </b></label>
+                  {% if event.pic %}
+                  <input type="file" value="{{event.pic.url}}" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="pic" id="exampleInputPassword1" placeholder="Event Pic...">
+                  {% else %}
+                  <input type="file" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="pic" id="exampleInputPassword1" placeholder="Event Pic...">
+                  {% endif %}
+                </div>
+  
+          </div><br><br>
+          
+          <div class="row">
+              <div class="form-group col-3">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-calendar-check-o"></i> &nbsp;Edit Event</button>
+                </form>
+              </div>
+
+              <div class="form-group col-3"> 
+                <a href="{% url 'add-event' %}"><button type="button" class="btn btn-primary"><i class="fa fa-arrow-circle-left"></i> &nbsp;Return to Events</button></a>
+              </div>
+          </div>
+        </div>
+    </div>
+    </div>
+    <br><br>
+  </div>
+
+{% endblock %}

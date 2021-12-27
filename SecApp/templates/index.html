@@ -23,14 +23,16 @@
               <div class="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center border-radius-xl mt-n4 position-absolute">
                 <i class="material-icons opacity-10">weekend</i>
               </div>
-              <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Total Event Hosted</p>
-                <h4 class="mb-0">$53k</h4>
-              </div>
+              <a href="{% url 'add-event' %}">
+                <div class="text-end pt-1">
+                  <p class="text-sm mb-0 text-capitalize">Total Event Hosted</p>
+                  <h4 class="mb-0">{{event_count}}</h4>
+                </div>
+              </a>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-              <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than lask week</p>
+              <!-- <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+55% </span>than lask week</p> -->
             </div>
           </div>
         </div>
@@ -40,10 +42,12 @@
               <div class="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center border-radius-xl mt-n4 position-absolute">
                 <i class="material-icons opacity-10">person</i>
               </div>
-              <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Total Society Members</p>
-                <h4 class="mb-0">{{mem_count}}</h4>
-              </div>
+              <a href="{% url 'add-member' %}">
+                <div class="text-end pt-1">
+                  <p class="text-sm mb-0 text-capitalize">Total Society Members</p>
+                  <h4 class="mb-0">{{mem_count}}</h4>
+                </div>
+              </a>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">

@@ -1,0 +1,140 @@
+{% extends 'sec-header.html' %}
+{% load static %}
+
+{% block title %}
+<title>Manage Event</title>
+{% endblock %}
+
+
+{% block event %}
+<li class="nav-item">
+  <a class="nav-link text-white  active bg-gradient-primary" href="">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+      <!-- <i class="material-icons opacity-10">receipt_long</i> -->
+      <i class="fa fa-calendar-check-o"></i>
+    </div>
+    <span class="nav-link-text ms-1">Manage Events</span>
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div class="container-fluid px-2 px-md-4">
+    
+    <div class="card card-body mx-3 mx-md-4 mt-n6">
+      <div class="row gx-4 mb-2">
+        
+        <div class="col-auto my-auto">
+          <div class="h-100">
+            <h5 class="mb-1" style="margin-left: 50px; margin-top: 50px;">
+              Add Event
+            </h5>
+            
+          </div>
+        </div>
+        
+      </div>
+      <p style="margin-left: 100px; color: red;">{{msg}}</p>
+
+      <div style="margin: 50px;">
+      <form action="{% url 'add-event' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="exampleInputPassword1"><b>Event Title</b></label>
+                <input type="text" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="ename" id="exampleInputPassword1" placeholder="Event Name..." required>
+            </div>
+            <div class="form-group col-6">
+                <label for="exampleInputPassword1"><b>Event Date</b></label>
+                <input type="date" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="edate" id="exampleInputPassword1" placeholder="Event Date..." required>
+            </div>
+        </div><br><br>
+        <div class="row">
+            <div class="form-group col-12">
+                <label for="exampleInputPassword1"><b>Description :</b></label>
+                <textarea name="edes" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" placeholder="Event Description..." id="" cols="30" rows="5"></textarea>
+            </div>
+        </div><br><br>
+
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="exampleInputPassword1"><b>Event Pic : </b></label>
+                <input type="file" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="pic" id="exampleInputPassword1" placeholder="Event Pic...">
+            </div>
+
+        </div><br><br>
+        
+        <button type="submit" class="btn btn-primary"><i class="fa fa-calendar-check-o"></i> &nbsp;Add Event</button>
+      </form>
+
+    </div>
+    </div>
+    <br><br>
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">Event List</h6>
+          </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 Center"><i class="fa fa-calendar-check-o"></i> Event Name</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Created At</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Event At</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Event Description</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Interested People</th>
+                  <th class="text-secondary opacity-7" colspan="2">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for one in events %}
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center" style="margin-left: 10px;">
+                        <h6 class="mb-0 text-sm">{{one.event_name}}</h6>
+                        <a href="mailto:{{one.uid.email}}"><p class="text-xs text-secondary mb-0">created by : {{one.uid.email}}</p></a>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">{{one.created_at}}</p>
+                    <p class="text-xs text-secondary mb-0"></p>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-success">{{one.event_at}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <span class="text-secondary text-xs font-weight-bold">{{one.event_des}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                    <p class="text-xs font-weight-bold mb-0">{{one.interest.all.count}}</p>
+                  </td>
+                  <td class="align-middle">
+                    <a href="{% url 'edit-event' one.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                      <i class="fa fa-edit"></i>
+                    </a>
+                  </td>
+                  <td class="align-middle">
+                    <a href="{% url 'delete-event' one.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete user">
+                      <i class="fa fa-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+{% endblock %}

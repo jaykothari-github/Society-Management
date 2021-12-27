@@ -1,4 +1,5 @@
 from django.db import models
+# from MemberApp.models import Member
 
 # Create your models here.
 
@@ -32,3 +33,16 @@ class Emergency(models.Model):
 
     def __str__(self):
         return self.name + '   ' + self.occupation 
+
+# class Event(models.Model):
+
+#     uid = models.ForeignKey(SecUser,on_delete=models.CASCADE)
+#     event_name = models.CharField(max_length=90)
+#     event_des = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     event_at = models.DateField()
+#     pic = models.FileField(upload_to='Event',null=True,blank=True)
+#     interest = models.ManyToManyField(,related_name='Likes')
+
+#     def __str__(self):
+#         return self.event_name + '  @  ' + str(self.event_at)
