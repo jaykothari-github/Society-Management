@@ -13,7 +13,8 @@ from MemberApp import models as mm
 def signin(request):
     try: 
         uid = SecUser.objects.get(email=request.session['email'])
-        return  render(request,'index.html')
+        mem_count = mm.Member.objects.all().count()
+        return render(request,'index.html',{'uid':uid,'mem_count':mem_count})
     except:
         if request.method == 'POST':
             try:
@@ -101,7 +102,8 @@ def forgot_password(request):
 def index(request):
     try:
         uid = SecUser.objects.get(email=request.session['email'])
-        return render(request,'index.html',{'uid':uid})
+        mem_count = mm.Member.objects.all().count()
+        return render(request,'index.html',{'uid':uid,'mem_count':mem_count})
 
     except:
         return render(request,'sign-in.html',{'msg':"session has been expired"})
@@ -191,6 +193,8 @@ def add_member(request):
                 verify = True if 'verify' in request.POST else False
             )
             return render(request,'add-member.html',{'uid':uid,'members':members,'msg':'User Created'})
+    # list_m = mm.Member.objects.values_list('email',flat=True)
+    # print(list(list_m))
     return render(request,'add-member.html',{'uid':uid,'members':members})
 
 def del_member(request,pk):
