@@ -1,5 +1,7 @@
 from django.db import models
 
+from SecApp.models import SecUser
+
 # Create your models here.
 
 class Member(models.Model):
@@ -11,6 +13,7 @@ class Member(models.Model):
         ('Other','Other'),
     )
 
+    uid = models.ForeignKey(SecUser,on_delete=models.CASCADE,null=True)
     fname = models.CharField(max_length=20)
     lname = models.CharField(max_length=20)
     email = models.EmailField(unique=True)

@@ -73,7 +73,7 @@
 
         <div class="row">
             <div class="form-group col-3">
-                <label for="exampleInputEmail1"><b>Select occupation : </b></label>
+                <label for="exampleInputEmail1"><b>Select Document Type : </b></label>
                 <select name="doc" style="background-color: rgb(243, 229, 229); padding-left: 20px;" class="form-control" id=""  required>
                     <option value="" selected>--</option>
                     <option value="Aadhar">Aadhar Card</option>
@@ -151,7 +151,7 @@
                       {% endif %}
                   </td>
                   <td class="align-middle">
-                    <a href="" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                    <a href="{% url 'edit-member' one.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
                       <i class="fa fa-edit"></i>
                     </a>
                   </td>

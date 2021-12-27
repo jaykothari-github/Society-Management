@@ -166,7 +166,7 @@ def add_member(request):
             s = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@.1234567890'
             password = ''.join(choices(s,k=8))
             subject = 'Welcome to Society Management App'
-            message = f"""Hello {request.POST["email"]}, 
+            message = f"""Hello {request.POST["fname"]} {request.POST['lname']}, 
             Your Account is created for Society Network. 
             Your login credentials are 
 
@@ -178,6 +178,7 @@ def add_member(request):
             send_mail( subject, message, email_from, recipient_list )
 
             mm.Member.objects.create(
+                uid = uid,
                 fname = request.POST['fname'],
                 lname = request.POST['lname'],
                 email = request.POST['email'],
@@ -196,3 +197,22 @@ def del_member(request,pk):
     member = mm.Member.objects.get(id=pk)
     member.delete()
     return redirect('add-member')
+
+def edit_member(request,pk):
+    uid = SecUser.objects.get(email=request.session['email'])
+    member = mm.Member.objects.get(id=pk)
+    if request.method == 'POST':
+        member.uid = uid
+        member.fname = request.POST['fname']
+        member.lname = request.POST['lname']
+        member.email = request.POST['email']
+        member.mobile = request.POST['mobile']
+        member.doc = request.POST['doc']
+        member.doc_number = request.POST['dnumber']
+        member.flat_no = request.POST['flat_no']
+        member.address = request.POST['address']
+        member.verify = True if 'verify' in request.POST else False
+        member.save()
+        return redirect('add-member')
+    return render(request,'edit-member.html',{'uid':uid,'member':member})
+
