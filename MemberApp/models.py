@@ -25,10 +25,11 @@ class Member(models.Model):
     password = models.CharField(max_length=20)
     pic = models.FileField(upload_to='member',default='avatar.png')
     verify = models.BooleanField(default=False)
+    role = models.CharField(max_length=20,default='member')
 
 
     def __str__(self):
-        return self.fname + '  ' + self.fname + ' ->  ' + str(self.flat_no)
+        return self.fname + '  ' + self.lname + ' @  ' + str(self.flat_no)
 
 
 class Event(models.Model):
@@ -43,3 +44,15 @@ class Event(models.Model):
 
     def __str__(self):
         return self.event_name + '  @  ' + str(self.event_at)
+
+class Notice(models.Model):
+
+    uid = models.ForeignKey(SecUser,on_delete=models.CASCADE)
+    member = models.ForeignKey(Member,on_delete=models.CASCADE)
+    subject = models.CharField(max_length=100)
+    des = models.TextField()
+    pic = models.FileField(upload_to='Notice',blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.member.fname + '  ' + self.member.lname + ' @ ' + self.subject

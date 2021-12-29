@@ -220,6 +220,7 @@ def edit_member(request,pk):
         member.flat_no = request.POST['flat_no']
         member.address = request.POST['address']
         member.verify = True if 'verify' in request.POST else False
+        member.role = request.POST['role']
         member.save()
         return redirect('add-member')
     return render(request,'edit-member.html',{'uid':uid,'member':member})
@@ -272,3 +273,27 @@ def delete_event(request,pk):
     event = mm.Event.objects.get(id=pk)
     event.delete()
     return redirect('add-event')
+
+def send_notice(request):
+    uid = SecUser.objects.get(email=request.session['email'])
+    members = mm.Member.objects.all()
+    if request.method == 'POST':
+        member = mm.Member.objects.get(id=request.POST['member'])
+        mm.Notice.objects.create(
+            uid = uid,
+            member = member,
+            subject = request.POST['subject'],
+            des = request.POST['des'],
+            pic = request.FILES['pic'] if 'pic' in request.FILES else None
+        )
+        subject = 'You got a notice from Secratory'
+        message = f"""Hello {member.fname} {member.lname}!!, 
+        You got a notice from secratory for : {request.POST['subject']}
+        from : {uid.name}, Secratory of the society
+        for further details visit your member account."""
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [member.email,]
+        send_mail( subject, message, email_from, recipient_list )
+        
+        return render(request,'send-notice.html',{'members':members,'uid':uid,'msg':'Notice sent to member'})
+    return render(request,'send-notice.html',{'members':members,'uid':uid})

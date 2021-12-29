@@ -18,5 +18,6 @@ urlpatterns = [
     path('add-event/',views.add_event, name='add-event'),
     path('edit-event/<int:pk>',views.edit_event, name='edit-event'),
     path('delete-event/<int:pk>',views.delete_event, name='delete-event'),
+    path('send-notice/',views.send_notice, name='send-notice'),
 
 ]

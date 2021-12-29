@@ -10,3 +10,7 @@ class ModelMember(admin.ModelAdmin):
 @admin.register(Event)
 class ModelEvent(admin.ModelAdmin):
     list_display = ['event_name','event_at','created_at']
+
+@admin.register(Notice)
+class ModelNotice(admin.ModelAdmin):
+    list_display = ['member','uid','subject','created_at']

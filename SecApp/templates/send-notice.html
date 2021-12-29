@@ -1,0 +1,82 @@
+{% extends 'sec-header.html' %}
+{% load static %}
+
+{% block title %}
+<title>Send Notice</title>
+{% endblock %}
+
+
+{% block notice %}
+<li class="nav-item">
+  <a class="nav-link text-white  active bg-gradient-primary" href="">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+      <i class="material-icons opacity-10">receipt_long</i>
+      <!-- <i class="fa fa-calendar-check-o"></i> -->
+    </div>
+    <span class="nav-link-text ms-1">Send Notice</span>
+  </a>
+</li>
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div class="container-fluid px-2 px-md-4">
+    
+    <div class="card card-body mx-3 mx-md-4 mt-n6">
+      <div class="row gx-4 mb-2">
+        
+        <div class="col-auto my-auto">
+          <div class="h-100">
+            <h5 class="mb-1" style="margin-left: 50px; margin-top: 50px;">
+              Send Notice
+            </h5>
+            
+          </div>
+        </div>
+        
+      </div>
+      <p style="margin-left: 100px; color: red;">{{msg}}</p>
+
+      <div style="margin: 50px;">
+      <form action="{% url 'send-notice' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+        <div class="row">
+            <div class="form-group col-12">
+                <label for="exampleInputPassword1"><b>Whom to send</b></label>
+                <select name="member" id="" style="background-color: rgb(243, 229, 229); padding-left: 20px;" class="form-control" required>
+                    <option value="">--</option>
+                    {% for member in members %}
+                    <option value="{{member.id}}">{{member.fname}} {{member.lname}} @ {{member.flat_no}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="form-group col-12">
+                <label for="exampleInputPassword1"><b>Notice Subject</b></label>
+                <input type="text" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="subject" id="exampleInputPassword1" placeholder="Notice Subject..." required>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="form-group col-12">
+                <label for="exampleInputPassword1"><b>Description :</b></label>
+                <textarea name="des" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" placeholder="Notice Description..." id="" cols="30" rows="5" required></textarea>
+            </div>
+        </div><br>
+
+        <div class="row">
+            <div class="form-group col-6">
+                <label for="exampleInputPassword1"><b>Event Pic : </b></label>
+                <input type="file" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="pic" id="exampleInputPassword1" placeholder="">
+            </div>
+
+        </div><br><br>
+        <p style="color: red; font-size: small;">Note : You can not undo notice</p>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-send"></i> &nbsp;Send Notice</button>
+      </form>
+
+    </div>
+    </div>
+    <br><br>
+</div>
+{% endblock %}

@@ -61,7 +61,7 @@
         </div><br><br>
 
         <div class="row">
-            <div class="form-group col-6">
+            <div class="form-group col-3">
                 <label for="exampleInputPassword1"><b>Flat No:</b></label>
                 <input type="text" class="form-control" value="{{member.flat_no}}" style="background-color: rgb(243, 229, 229); padding-left: 20px;" name="flat_no" id="exampleInputPassword1" placeholder="Member's Flat Number..." required>
             </div>
@@ -69,6 +69,18 @@
                 <label for="exampleInputEmail1"><b>Another Address</b></label>
                 <input type="text" name="address"  class="form-control" value="{{member.address}}" id="exampleInputEmail1" style="background-color: rgb(243, 229, 229); padding-left: 20px;" aria-describedby="emailHelp" required placeholder="Member's Another Address">
             </div>
+            <div class="form-group col-3">
+              <label for="exampleInputEmail1"><b>Change Membership</b></label>
+              <select name="role" style="background-color: rgb(243, 229, 229); padding-left: 20px;" class="form-control" id=""  required>
+                {% if member.role == "member" %}
+                <option value="member" selected>Member</option>
+                <option value="visitor">Visitor</option>
+                {% elif member.role == 'visitor' %}
+                <option value="member">Member</option>
+                <option value="visitor" selected>Visitor</option>
+                {% endif %}
+            </select>
+          </div>
         </div><br><br>
 
         <div class="row">
