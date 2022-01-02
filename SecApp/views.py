@@ -277,6 +277,7 @@ def delete_event(request,pk):
 def send_notice(request):
     uid = SecUser.objects.get(email=request.session['email'])
     members = mm.Member.objects.all()
+    notices = mm.Notice.objects.all()[::-1]
     if request.method == 'POST':
         member = mm.Member.objects.get(id=request.POST['member'])
         mm.Notice.objects.create(
@@ -288,12 +289,19 @@ def send_notice(request):
         )
         subject = 'You got a notice from Secratory'
         message = f"""Hello {member.fname} {member.lname}!!, 
+        
         You got a notice from secratory for : {request.POST['subject']}
         from : {uid.name}, Secratory of the society
         for further details visit your member account."""
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [member.email,]
         send_mail( subject, message, email_from, recipient_list )
+        notices = mm.Notice.objects.all()[::-1]
         
-        return render(request,'send-notice.html',{'members':members,'uid':uid,'msg':'Notice sent to member'})
-    return render(request,'send-notice.html',{'members':members,'uid':uid})
+        return render(request,'send-notice.html',{'members':members,'uid':uid,'notices':notices,'msg':'Notice sent to member'})
+    return render(request,'send-notice.html',{'members':members,'notices':notices,'uid':uid})
+
+def view_send_notice(request,pk):
+    uid = SecUser.objects.get(email=request.session['email'])
+    notice = mm.Notice.objects.get(id=pk)
+    return render(request,'view-send-notice.html',{'uid':uid,'notice':notice})
