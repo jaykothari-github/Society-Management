@@ -20,5 +20,6 @@ urlpatterns = [
     path('delete-event/<int:pk>',views.delete_event, name='delete-event'),
     path('send-notice/',views.send_notice, name='send-notice'),
     path('view-send-notice/<int:pk>',views.view_send_notice, name='view-send-notice'),
+    path('gallery/',views.gallery, name='gallery'),
 
 ]

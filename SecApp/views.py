@@ -305,3 +305,13 @@ def view_send_notice(request,pk):
     uid = SecUser.objects.get(email=request.session['email'])
     notice = mm.Notice.objects.get(id=pk)
     return render(request,'view-send-notice.html',{'uid':uid,'notice':notice})
+
+def gallery(request):
+    uid = SecUser.objects.get(email=request.session['email'])
+    if request.FILES:
+        Gallery.objects.create(
+            uid = uid,
+            pic = request.FILES['pic']
+        )
+    photos = Gallery.objects.all()[::-1]
+    return render(request,'gallery.html',{'photos':photos,'uid':uid})

@@ -34,15 +34,11 @@ class Emergency(models.Model):
     def __str__(self):
         return self.name + '   ' + self.occupation 
 
-# class Event(models.Model):
 
-#     uid = models.ForeignKey(SecUser,on_delete=models.CASCADE)
-#     event_name = models.CharField(max_length=90)
-#     event_des = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     event_at = models.DateField()
-#     pic = models.FileField(upload_to='Event',null=True,blank=True)
-#     interest = models.ManyToManyField(,related_name='Likes')
+class Gallery(models.Model):
 
-#     def __str__(self):
-#         return self.event_name + '  @  ' + str(self.event_at)
+    uid = models.ForeignKey(SecUser,on_delete=models.CASCADE)
+    pic = models.FileField(upload_to='Gallery')
+
+    def __str__(self):
+        return self.uid.name + ' >  ' + str(self.pic.url)

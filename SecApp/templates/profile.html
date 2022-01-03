@@ -82,7 +82,8 @@
             <div class="form-group col-6">
                 <label for="exampleInputEmail1"><b>Email Address</b></label>
                 <input type="email" value="{{uid.email}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" disabled>
-                <small id="emailHelp" class="form-text text-muted" style="margin-left: 30px">To change Email contact Admin</small>
+                <!-- <small id="emailHelp" class="form-text text-muted" style="margin-left: 30px">To change Email contact Admin</small> -->
+                <p style="color: red; font-size: small;margin-left: 30px">*To change Email contact Admin</p>
             </div>
         </div><br><br>
         <div class="row">
@@ -95,9 +96,9 @@
                 <input type="file" value="{{uid.pic.url}}" name="pic" class="form-control" style="background-color: rgb(243, 229, 229); padding-left: 10px;" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
             </div>
         </div><br><br><br>
-        <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i>   Update Profile</button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-edit"></i>&nbsp;  Update Profile</button>
       </form>
-      <a href="{% url 'change-password' %}"><button type="button" class="btn btn-primary"><i class="fa fa-lock"></i>  To Change Password</button></a>
+      <a href="{% url 'change-password' %}"><button type="button" class="btn btn-primary"><i class="fa fa-lock"></i>&nbsp;  To Change Password</button></a>
 
     </div>
     </div>

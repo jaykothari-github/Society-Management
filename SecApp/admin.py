@@ -13,3 +13,6 @@ class ModelEmergency(admin.ModelAdmin):
 
     list_display = ['name','email','mobile','occupation']
 
+
+admin.site.register(Gallery)
+
