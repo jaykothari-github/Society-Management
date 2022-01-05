@@ -10,6 +10,7 @@ class SecUser(models.Model):
     mobile = models.CharField(max_length=15)
     password = models.CharField(max_length=50)
     pic = models.FileField(upload_to='Profile',default='avatar.png')
+    setting = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

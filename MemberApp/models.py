@@ -26,6 +26,7 @@ class Member(models.Model):
     pic = models.FileField(upload_to='member',default='avatar.png')
     verify = models.BooleanField(default=False)
     role = models.CharField(max_length=20,default='member')
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):
