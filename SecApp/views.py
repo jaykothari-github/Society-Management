@@ -12,27 +12,15 @@ from MemberApp import models as mm
 
 def signin(request):
     try: 
-        uid = SecUser.objects.get(email=request.session['email'])
-        mem_count = mm.Member.objects.all().count()
-        event_count = mm.Event.objects.all().count()
-        try:
-            new_members = mm.Member.objects.all()[-5:]
-        except:
-            new_members = mm.Member.objects.all()[::-1]
-        return render(request,'index.html',{'uid':uid,'new_members':new_members,'mem_count':mem_count,'event_count':event_count})
+        SecUser.objects.get(email=request.session['email'])
+        return redirect('index')
     except:
         if request.method == 'POST':
             try:
                 uid = SecUser.objects.get(email=request.POST['email'])
                 if uid.password == request.POST['password']:
                     request.session['email'] = request.POST['email']
-                    mem_count = mm.Member.objects.all().count()
-                    event_count = mm.Event.objects.all().count()
-                    try:
-                        new_members = mm.Member.objects.all()[-5:]
-                    except:
-                        new_members = mm.Member.objects.all()[::-1]
-                    return render(request,'index.html',{'uid':uid,'new_members':new_members,'mem_count':mem_count,'event_count':event_count})
+                    return redirect('index')
                 msg = 'Password is incorrect'
                 return render(request,'sign-in.html',{'msg':msg})
             except:
@@ -114,11 +102,11 @@ def index(request):
     try:
         uid = SecUser.objects.get(email=request.session['email'])
         mem_count = mm.Member.objects.all().count()
+        event_count = mm.Event.objects.all().count()
         try:
             new_members = mm.Member.objects.all()[-5:]
         except:
             new_members = mm.Member.objects.all()[::-1]
-        event_count = mm.Event.objects.all().count()
 
         return render(request,'index.html',{'uid':uid,'new_members':new_members,'mem_count':mem_count,'event_count':event_count})
 
