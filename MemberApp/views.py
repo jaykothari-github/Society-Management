@@ -1,10 +1,17 @@
 from django.shortcuts import redirect, render
 from .models import *
 
+
 # Create your views here.
 
 def index(request):
-    return render(request,'member-index.html')
+    event_count = Event.objects.all().count()
+    member_count = Member.objects.all().count()
+    try:
+        member = Member.objects.get(email=request.session['memail'])
+        return render(request,'member-index.html',{'member':member,'event_count':event_count,'member_count':member_count})
+    except:
+        return render(request,'member-index.html',{'event_count':event_count,'member_count':member_count})
 
 def member_login(request):
     try:
@@ -16,7 +23,7 @@ def member_login(request):
                 uid = Member.objects.get(email=request.POST['email'])
                 if request.POST['password'] == uid.password:
                     request.session['memail'] = request.POST['email']
-                    return render(request,'member-index.html')
+                    return redirect('member-index')
             except:
                 msg = "You Don't have an Account request to secratory for an account."
                 return render(request,'member-login.html',{'msg':msg})
@@ -40,3 +47,6 @@ def profile(request):
         msg = 'Profile has been updated'
         return render(request,'member-profile.html',{'member':mem,'msg':msg})
     return render(request,'member-profile.html',{'member':mem})
+
+def  change_password(request):
+    return render(request,'member-change-password.html')
