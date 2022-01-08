@@ -1,0 +1,81 @@
+{% extends 'member-header.html' %}
+{% load static %}
+{% block content %}
+
+<div id="hero" class="hero overlay subpage-hero contact-hero">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>Login </h1>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'member-index' %}">Home</a></li>
+              <li class="breadcrumb-item active">Login</li>
+            </ol>
+        </div><!-- /.hero-text -->
+    </div><!-- /.hero-content -->
+</div>
+
+<main id="main" class="site-main">
+
+    <section class="site-section subpage-site-section section-contact-us">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-7">
+                    <div style="align-items: center;">
+                        <h2>Login as Member : </h2>
+                    </div>
+                    <form action="{% url 'member-login' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label for="name">Email:</label>
+                                  <input type="email" name="email" style="background-color: rgb(152, 235, 152);" placeholder="Enter Your Email..." class="form-control" id="email">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label for="email">Password:</label>
+                                  <input type="password" name="password" style="background-color: rgb(152, 235, 152);" placeholder="Enter Your Password..." class="form-control" id="password">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-green">Login <i class="fa fa-arrow-right"></i></button>
+                        </div>
+                    </form>
+                    <div class="text-center">
+                        <button class="btn btn-green">Request For Account <i class="fa fa-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="contact-info">
+                        <h2>Contact information</h2>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3><i class="fa fa-home"></i> Address</h3>
+                                <ul class="list-unstyled">
+                                    <li>Malibu street CA.</li>
+                                    <li>100 Mainstreet Center</li>
+                                </ul>
+                                <h3><i class="fa fa-envelope"></i> E-mail</h3>
+                                <a href="mailto:jaykothari49@gmail.com" target="_blank">jaykothari49@gmail.com</a>
+                                <h3><i class="fa fa-phone"></i> Phone</h3>
+                                <a href="tel:2083339296" target="_blank">(+91)-8980536957</a>
+                                <h3><i class="fa fa-whatsapp"></i> WhatsApp</h3>
+                                <a href="https://api.whatsapp.com/send/?phone=918980536957&text&app_absent=0" target="_blank">(+91)-8980536957</a>
+                                <h3><i class="fa fa-github"></i> GitHub : </h3>
+                                <p><a href="https://github.com/jaykothari-github" target="_blank">Visit Github</a></p>
+                            </div>
+                        </div>
+                    </div><!-- /.contact-info -->
+                </div>
+            </div>
+        </div>
+        
+    </section><!-- /.section-contact-us -->
+
+
+</main>
+
+{% endblock %}
