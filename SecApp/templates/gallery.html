@@ -48,17 +48,17 @@
       <p style="margin: 10px; color: red;">{{msg}}</p>
 
       <div style="margin: 20px; margin-left: 60px;">
-      <form action="{% url 'gallery' %}" method="POST" enctype="multipart/form-data">
+      <form action="{% url 'gallery' %}" method="POST" enctype="multipart/form-data" >
           {% csrf_token %}
         <div class="row">
             <div class="form-group col-3">
                 <label for="exampleInputPassword1"><b>Upload Picture : </b></label>
-                <input type="file" style="background-color: rgb(243, 229, 229); padding-left: 20px;" class="form-control" name="pic"  required>
+                <input type="file" multiple style="background-color: rgb(243, 229, 229); padding-left: 20px;" class="form-control" name="pic"  required>
             </div>
             <div class="form-group col-3">
                 <label for="exampleInputPassword1"><b> </b></label><br>
 
-                <button type="submit" class="btn btn-primary"><i class="fa fa-upload"></i>   Upload Picture</button>
+                <button type="submit" class="btn btn-primary" style="margin-top: 7px;"><i class="fa fa-upload"></i>   Upload Picture</button>
             </div>
         </div><br>
         
