@@ -50,7 +50,7 @@ def profile(request):
         return render(request,'member-profile.html',{'member':mem,'msg':msg})
     return render(request,'member-profile.html',{'member':mem})
 
-def  change_password(request):
+def change_password(request):
     mem = Member.objects.get(email=request.session['memail'])
     if request.method == 'POST':
         if mem.password == request.POST['old_password']:
@@ -61,3 +61,14 @@ def  change_password(request):
             return render(request,'member-change-password.html',{'member':mem,'msg':'New passwords are not same'})
         return render(request,'member-change-password.html',{'member':mem,'msg':'Old Password is not matched'})
     return render(request,'member-change-password.html',{'member':mem})
+
+def emergency_contact(request):
+    contacts = sm.Emergency.objects.all()
+    member = Member.objects.get(email=request.session['memail'])
+    if request.method == 'POST':
+        if request.POST['cate'] == 'all':
+            contacts = sm.Emergency.objects.all()
+        else:
+            contacts = sm.Emergency.objects.filter(occupation=request.POST['cate'])
+    
+    return render(request,'emergency-contact.html',{'member':member,'contacts':contacts})

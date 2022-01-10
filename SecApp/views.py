@@ -150,6 +150,7 @@ def emergency(request):
             occupation = request.POST['occupation'],
             des = request.POST['des']
         )
+        contacts = Emergency.objects.all()[::-1]
         return render(request,'emergency.html',{'uid':uid,'contacts':contacts,"msg":"Contact has been added"})
 
     return render(request,'emergency.html',{'uid':uid,'contacts':contacts})
