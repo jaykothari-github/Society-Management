@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from .models import *
+from SecApp import models as sm
 
 
 # Create your views here.
@@ -9,7 +10,8 @@ def index(request):
     member_count = Member.objects.all().count()
     try:
         member = Member.objects.get(email=request.session['memail'])
-        return render(request,'member-index.html',{'member':member,'event_count':event_count,'member_count':member_count})
+        photos = list(sm.Gallery.objects.all())[-8:]
+        return render(request,'member-index.html',{'member':member,'photos':photos,'event_count':event_count,'member_count':member_count})
     except:
         return render(request,'member-index.html',{'event_count':event_count,'member_count':member_count})
 
@@ -35,7 +37,7 @@ def logout(request):
     return redirect('member-index')
 
 def profile(request):
-    mem = Member.objects.get(email=request.session['email'])
+    mem = Member.objects.get(email=request.session['memail'])
     if request.method == 'POST':
         mem.fname = request.POST['fname']
         mem.lname = request.POST['lname']
@@ -49,4 +51,13 @@ def profile(request):
     return render(request,'member-profile.html',{'member':mem})
 
 def  change_password(request):
-    return render(request,'member-change-password.html')
+    mem = Member.objects.get(email=request.session['memail'])
+    if request.method == 'POST':
+        if mem.password == request.POST['old_password']:
+            if request.POST['new_password'] == request.POST['con_password']:
+                mem.password = request.POST['new_password']
+                mem.save()
+                return render(request,'member-change-password.html',{'member':mem,'msg':'Password Has been updated'})
+            return render(request,'member-change-password.html',{'member':mem,'msg':'New passwords are not same'})
+        return render(request,'member-change-password.html',{'member':mem,'msg':'Old Password is not matched'})
+    return render(request,'member-change-password.html',{'member':mem})
