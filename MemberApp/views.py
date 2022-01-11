@@ -72,3 +72,8 @@ def emergency_contact(request):
             contacts = sm.Emergency.objects.filter(occupation=request.POST['cate'])
     
     return render(request,'emergency-contact.html',{'member':member,'contacts':contacts})
+
+def view_notice(request):
+    member = Member.objects.get(email=request.session['memail'])
+    notices = Notice.objects.filter(member=member)[::-1]
+    return render(request,'view-notice.html',{'notices':notices,'member':member})
