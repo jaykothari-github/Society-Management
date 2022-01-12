@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-<title>Emergency Contact</title>
+<title>View My Notice</title>
 {% endblock %}
 
 {% block content %}
@@ -85,7 +85,7 @@
                   <td style="text-align: center;"><a title="{{i.uid.title}}" href="mailto:{{i.uid.email}}"> {{i.uid.name}}</a></td>
                   <td style="text-align: center;">{{i.subject}}</td>
                   <td style="text-align: center;">{{i.created_at}}</td>
-                  <td style="text-align: center;"><a href=""><i class="fa fa-eye"></i></a></td>
+                  <td style="text-align: center;"><a href="{% url 'view-single-notice' i.id %}"><i class="fa fa-eye"></i></a></td>
                 </tr>
                 {% endfor %}
                 

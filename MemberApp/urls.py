@@ -9,4 +9,5 @@ urlpatterns = [
     path('member-change-password/',views.change_password,name='member-change-password'),
     path('emergency-contact/',views.emergency_contact,name='emergency-contact'),
     path('member-view-notice/',views.view_notice,name='member-view-notice'),
+    path('view-single-notice/<int:pk>',views.view_single_notice,name='view-single-notice'),
 ]
