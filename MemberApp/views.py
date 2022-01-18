@@ -2,7 +2,6 @@ from django.shortcuts import redirect, render
 from .models import *
 from SecApp import models as sm
 
-
 # Create your views here.
 
 def index(request):
