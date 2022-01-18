@@ -1,5 +1,4 @@
 from django.db import models
-
 from SecApp.models import SecUser
 
 # Create your models here.

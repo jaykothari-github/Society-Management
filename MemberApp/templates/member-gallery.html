@@ -1,0 +1,34 @@
+{% extends 'member-header.html' %}
+{% load static %}
+
+{% block content %}
+    <br><br>
+
+    <main id="main" class="site-main">
+
+        
+        <section class="site-section section-portfolio">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="heading-separator">Society Gallery</h2>
+                    <p class="subheading-text">Photos Updates </p>
+                </div>
+                <div class="row">
+                    {% for photo in photos %}
+                    <div class="col-lg-3 col-md-4 col-xs-6">
+                        <div class="portfolio-item">
+                            <img src="{{photo.pic.url}}" class="img-res" alt="">
+                            <h4 class="portfolio-item-title">View Photo</h4>
+                            <a href="{{photo.pic.url}}"><i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+                        </div><!-- /.portfolio-item -->
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section><!-- /.section-portfolio -->
+
+        
+
+    </main><!-- /#main -->
+
+{% endblock %}

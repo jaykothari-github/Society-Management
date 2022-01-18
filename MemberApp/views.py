@@ -9,7 +9,7 @@ def index(request):
     member_count = Member.objects.all().count()
     try:
         member = Member.objects.get(email=request.session['memail'])
-        photos = list(sm.Gallery.objects.all())[-8:]
+        photos = list(sm.Gallery.objects.all())[-1:-9:-1]
         return render(request,'member-index.html',{'member':member,'photos':photos,'event_count':event_count,'member_count':member_count})
     except:
         return render(request,'member-index.html',{'event_count':event_count,'member_count':member_count})
@@ -81,3 +81,8 @@ def view_my_notice(request,pk):
     member = Member.objects.get(email=request.session['memail'])
     notice = Notice.objects.get(id=pk)
     return render(request,'view-my-notice.html',{'member':member,'notice':notice})
+
+def member_gallery(request):
+    member = Member.objects.get(email=request.session['memail'])
+    photos = sm.Gallery.objects.all()[::-1]
+    return render(request,'member-gallery.html',{'member':member,'photos':photos})
