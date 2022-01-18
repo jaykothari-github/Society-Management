@@ -76,3 +76,8 @@ def view_notice(request):
     member = Member.objects.get(email=request.session['memail'])
     notices = Notice.objects.filter(member=member)[::-1]
     return render(request,'view-notice.html',{'notices':notices,'member':member})
+
+def view_my_notice(request,pk):
+    member = Member.objects.get(email=request.session['memail'])
+    notice = Notice.objects.get(id=pk)
+    return render(request,'view-my-notice.html',{'member':member,'notice':notice})

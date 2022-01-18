@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-<title>View All Notices</title>
+<title>View Notice - {{notice.subject}}</title>
 {% endblock %}
 
 {% block content %}
@@ -13,7 +13,7 @@
             <h1>Notice Mails</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="{% url 'member-index' %}">Home</a></li>
-              <li class="breadcrumb-item active">My Notice Mails</li>
+              <li class="breadcrumb-item active">My Notice - {{notice.subject}}</li>
             </ol>
         </div><!-- /.hero-text -->
     </div><!-- /.hero-content -->
@@ -27,7 +27,6 @@
     
     #customers td, #customers th {
       border: 1px solid #ddd;
-      padding: 8px;
     }
     
     #customers tr:nth-child(even){background-color: #f2f2f2;}
@@ -40,6 +39,8 @@
       text-align: left;
       background-color: #04AA6D;
       color: white;
+      padding-right: 0px;
+      padding-left: 0px;
     }
     </style>
 <main id="main" class="site-main">
@@ -50,7 +51,7 @@
             <div class="row">
                 <div class="col-sm-6">
                     <div>
-                        <h2>Notices : </h2>
+                        <h2>Notice Detail : </h2>
                     </div>
                 </div>
                 <!-- <div class="col-sm-6">
@@ -76,21 +77,29 @@
             <table id="customers">
                 <tr>
                   <th style="text-align: center;">Send By:</th>
-                  <th style="text-align: center;"> Subject </th>
-                  <th style="text-align: center;">Sent on </th>
-                  <th style="text-align: center;">View in Detail</th>
+                  <td style="text-align: center;"> {{notice.uid.name}} (Secratory)</td>
                 </tr>
-                {% for i in notices %}
                 <tr>
-                  <td style="text-align: center;"><a title="{{i.uid.title}}" href="mailto:{{i.uid.email}}"> {{i.uid.name}}</a></td>
-                  <td style="text-align: center;">{{i.subject}}</td>
-                  <td style="text-align: center;">{{i.created_at}}</td>
-                  <td style="text-align: center;"><a href="{% url 'member-view-notice' i.id %}"><i class="fa fa-eye"></i></a></td>
+                    <th style="text-align: center;">Recieved Time:</th>
+                    <td style="text-align: center;"> {{notice.created_at}} </td>
                 </tr>
-                {% endfor %}
-                
-              </table>
+                <tr>
+                    <th style="text-align: center;">Subject :</th>
+                    <td style="text-align: center;"> {{notice.subject}} </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">Description:</th>
+                    <td style="text-align: center;"> {{notice.des}} </td>
+                </tr>
+                {% if notice.pic %}
+                <tr>
+                    <th style="text-align: center;">Description:</th>
+                    <td style="text-align: center;"> <img src="{{notice.pic.url}}" alt=""> </td>
+                </tr>
+                {% endif %}
 
+              </table>
+                  <a href="{% url 'member-view-notices' %}"><button style="margin: 10px;" class="btn btn-green"><i class="fa fa-arrow-left"></i> Back</button></a>
         </div>
         
     </section><!-- /.section-contact-us -->
