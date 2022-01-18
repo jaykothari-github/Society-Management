@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from SecApp.models import SecUser
 
@@ -56,3 +57,13 @@ class Notice(models.Model):
 
     def __str__(self):
         return self.member.fname + '  ' + self.member.lname + ' @ ' + self.subject
+
+
+class Complain(models.Model):
+
+    complain_by = models.ForeignKey(Member,on_delete=models.CASCADE)
+    subject = models.CharField(max_length=90)
+    des = models.TextField()
+    status = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    solved_at = models.DateTimeField(default=datetime.now())
