@@ -1,4 +1,5 @@
 from datetime import datetime
+from statistics import mode
 from django.db import models
 from SecApp.models import SecUser
 
@@ -62,6 +63,7 @@ class Notice(models.Model):
 class Complain(models.Model):
 
     complain_by = models.ForeignKey(Member,on_delete=models.CASCADE)
+    solve_by = models.ForeignKey(SecUser,on_delete=models.CASCADE,null=True,blank=True)
     subject = models.CharField(max_length=90)
     des = models.TextField()
     status = models.BooleanField(default=False)
