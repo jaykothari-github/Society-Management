@@ -14,3 +14,7 @@ class ModelEvent(admin.ModelAdmin):
 @admin.register(Notice)
 class ModelNotice(admin.ModelAdmin):
     list_display = ['member','uid','subject','created_at']
+
+@admin.register(Complain)
+class ModelComplain(admin.ModelAdmin):
+    list_display = ['complain_by','subject','status','created_at','solved_at']

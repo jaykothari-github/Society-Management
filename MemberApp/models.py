@@ -68,4 +68,7 @@ class Complain(models.Model):
     des = models.TextField()
     status = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    solved_at = models.DateTimeField(default=datetime.now())
+    solved_at = models.DateTimeField(blank=True,null=True)
+
+    def __str__(self):
+        return self.subject + ' --by-- ' + self.complain_by.fname

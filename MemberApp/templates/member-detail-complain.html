@@ -1,0 +1,117 @@
+{% extends 'member-header.html' %}
+{% load static %}
+
+{% block title %}
+<title>View complain - {{complain.subject}}</title>
+{% endblock %}
+
+{% block content %}
+
+<div id="hero" class="hero overlay subpage-hero contact-hero">
+    <div class="hero-content">
+        <div class="hero-text">
+            <h1>View Complain</h1>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'member-index' %}">Home</a></li>
+              <li class="breadcrumb-item active">My Complain - {{complain.subject}}</li>
+            </ol>
+        </div><!-- /.hero-text -->
+    </div><!-- /.hero-content -->
+</div>
+<style>
+    #customers {
+      font-family: Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #customers td, #customers th {
+      border: 1px solid #ddd;
+    }
+    
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #customers tr:hover {background-color: #ddd;}
+    
+    #customers th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #04AA6D;
+      color: white;
+      padding-right: 0px;
+      padding-left: 0px;
+    }
+    </style>
+<main id="main" class="site-main">
+
+    <section class="site-section subpage-site-section section-contact-us">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div>
+                        <h2>Notice Detail : </h2>
+                    </div>
+                </div>
+                <!-- <div class="col-sm-6">
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="col-md-6">
+                            <select style="padding-left: 30px;" name="cate" class="selectpicker">
+                                <option value="all">All</option>
+                                <option value="Doctor">Doctor</option>
+                                <option value="Plumber">Plumber</option>
+                                <option value="Electrician">Electrician</option>
+                                <option value="Cate">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-green">Search</button>
+                        </div>
+                    </form>
+                </div> -->
+                
+            </div>
+
+            <table id="customers">
+                <tr>
+                  <th style="text-align: center;">Complain By:</th>
+                  <td style="text-align: center;"> {{complain.complain_by.fname}} {{complain.complain_by.lname}}</td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">Send Time:</th>
+                    <td style="text-align: center;"> {{complain.created_at}} </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">Subject :</th>
+                    <td style="text-align: center;"> {{complain.subject}} </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">Description:</th>
+                    <td style="text-align: center;"> {{complain.des}} </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">Complain Status:</th>
+                    <td style="text-align: center;"> {% if complain.status %}<b style="color: green;">Solved</b> {% else %} <b style="color: red;">Pending</b> {% endif %}  </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">Complain Solved by:</th>
+                    <td style="text-align: center;"> {{complain.solve_by.name}} </td>
+                </tr>
+                <tr>
+                    <th style="text-align: center;">Solved Time:</th>
+                    <td style="text-align: center;"> {{complain.solved_at}} </td>
+                </tr>
+
+              </table>
+                  <a href="{% url 'member-view-complain' %}"><button style="margin: 10px;" class="btn btn-green"><i class="fa fa-arrow-left"></i> Back</button></a>
+        </div>
+        
+    </section><!-- /.section-contact-us -->
+
+
+</main>
+
+
+{% endblock %}

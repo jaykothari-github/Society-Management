@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
 from .models import *
 from SecApp import models as sm
+from django.conf import settings
+from django.core.mail import send_mail
 
 # Create your views here.
 
@@ -86,3 +88,41 @@ def member_gallery(request):
     member = Member.objects.get(email=request.session['memail'])
     photos = sm.Gallery.objects.all()[::-1]
     return render(request,'member-gallery.html',{'member':member,'photos':photos})
+
+
+def member_complain(request):
+    member = Member.objects.get(email=request.session['memail'])
+    if request.method == 'POST':
+        Complain.objects.create(
+            complain_by=member,
+            subject = request.POST['subject'],
+            des = request.POST['des']
+            )
+        subject = 'Complain Confirm!!'
+        message = f"""Hello {member.fname} {member.lname},
+        You Have Complain Regarding {request.POST['subject']}.
+        
+        Secratory will respond on it soon."""
+        email_from = settings.EMAIL_HOST_USER
+        recipient_list = [member.email, ] 
+        send_mail( subject, message, email_from, recipient_list )
+        return render(request,'member-complain.html',{'member':member,'msg':'Complain Added'})
+    return render(request,'member-complain.html',{'member':member})
+
+def member_view_complain(request):
+    member = Member.objects.get(email=request.session['memail'])
+    complains = Complain.objects.filter(complain_by = member)
+    if request.method == 'POST':
+        if request.POST['type'] == 'True':
+            complains = Complain.objects.filter(complain_by = member,status=True)
+        elif request.POST['type'] == 'False':
+            complains = Complain.objects.filter(complain_by = member,status=False)
+        else:
+            pass 
+
+    return render(request,'member-view-complain.html',{'member':member,'complains':complains})
+
+def member_detail_complain(request,pk):
+    member = Member.objects.get(email=request.session['memail'])
+    complain = Complain.objects.get(id=pk)
+    return render(request,'member-detail-complain.html',{'member':member,'complain':complain})
