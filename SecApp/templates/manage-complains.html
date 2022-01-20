@@ -1,0 +1,180 @@
+{% extends 'sec-header.html' %}
+{% load static %}
+
+{% block title %}
+<title>Manage Complains</title>
+{% endblock %}
+
+{% block complain %}
+<li class="nav-item">
+<a class="nav-link text-white bg-gradient-primary" href="#">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+    <!-- <i class="material-icons opacity-10">format_textdirection_r_to_l</i> -->
+    <i class="fa fa-thumbs-down"></i>
+    </div>
+    <span class="nav-link-text ms-1">Manage Complains</span>
+</a>
+</li>
+{% endblock%}
+
+
+{% block content %}
+
+<div class="container-fluid px-2 px-md-4">
+    
+    
+    <br><br>
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">Unsolve Complains</h6>
+          </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 Center"><i class="fa fa-user"></i> Complain by:</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Subject</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Complain time:</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                  <th class="text-secondary opacity-7" colspan="2" style="text-align: center;">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for one in complains %}
+                {% if one.status == False %}
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center" style="margin-left: 10px;">
+                        <h6 class="mb-0 text-sm">{{one.complain_by.fname}} {{one.complain_by.lname}}</h6>
+                        <a href="mailto:{{one.complain_by.email}}"><p class="text-xs text-secondary mb-0">{{one.complain_by.email}}</p></a>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">{{one.subject}}</p>
+                    <p class="text-xs text-secondary mb-0"></p>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-primary">{{one.created_at}}</span>
+                  </td>
+                  
+                  <td class="align-middle text-center">
+                      {% if one.status %}
+                        <i class="fa fa-check" style="color: rgb(8, 236, 19);"></i>
+                      {% else %}
+                        <i class="fa fa-close" style="color: red;"></i>
+                      {% endif %}
+                  </td>
+                  <td class="align-middle">
+                    <a href="{% url 'complain-status' one.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Delete user">
+                      <button class="btn bg-gradient-info"><i class="fa fa-check"></i> Mark as Done</button>
+                    </a>
+                  </td>
+                  <td class="align-middle">
+                    <a href="{% url 'view-complain' one.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                      <button class="btn btn-primary">
+
+                          Take a Look &nbsp;<i class="fa fa-sign-in"></i>
+                      </button>
+                    </a>
+                  </td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br><br>
+  <div class="row">
+    <div class="col-12">
+      <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">Solved Complains </h6>
+          </div>
+        </div>
+        <div class="card-body px-0 pb-2">
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 Center"><i class="fa fa-user"></i> Complain by:</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 Center"><i class="fa fa-user"></i> Solve by:</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Subject</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Complain time:</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Solved time:</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+                      <th class="text-secondary opacity-7" colspan="1" style="text-align: center;">Action</th>
+                    </tr>
+                  </thead>
+              <tbody>
+                {% for one in complains %}
+                {% if one.status %}
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center" style="margin-left: 10px;">
+                        <h6 class="mb-0 text-sm">{{one.complain_by.fname}} {{one.complain_by.lname}}</h6>
+                        <a href="mailto:{{one.complain_by.email}}"><p class="text-xs text-secondary mb-0">{{one.complain_by.email}}</p></a>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center" style="margin-left: 10px;">
+                        <h6 class="mb-0 text-sm">{{one.solve_by.name}} (Sec)</h6>
+                        <a href="mailto:{{one.solve_by.email}}"><p class="text-xs text-secondary mb-0">{{one.solve_by.email}}</p></a>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">{{one.subject}}</p>
+                    <p class="text-xs text-secondary mb-0"></p>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-primary">{{one.created_at}}</span>
+                  </td>
+                  <td class="align-middle text-center text-sm">
+                    <span class="badge badge-sm bg-gradient-info">{{one.solved_at}}</span>
+                  </td>
+                  <td class="align-middle text-center">
+                      {% if one.status %}
+                        <i class="fa fa-check" style="color: rgb(8, 236, 19);"></i>
+                      {% else %}
+                        <i class="fa fa-close" style="color: red;"></i>
+                      {% endif %}
+                  </td>
+                  <td class="align-middle text-center">
+                    <a href="{% url 'view-complain' one.id %}" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                      <button class="btn btn-primary">
+
+                          Take a Look &nbsp;<i class="fa fa-sign-in"></i>
+                      </button>
+                    </a>
+                  </td>
+                  
+                </tr>
+                {% endif %}
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+{% endblock %}

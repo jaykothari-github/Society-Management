@@ -21,5 +21,8 @@ urlpatterns = [
     path('send-notice/',views.send_notice, name='send-notice'),
     path('view-send-notice/<int:pk>',views.view_send_notice, name='view-send-notice'),
     path('gallery/',views.gallery, name='gallery'),
+    path('manage-complans/',views.manage_complains, name='manage-complains'),
+    path('complain-status/<int:pk>',views.complain_status,name='complain-status'),
+    path('view-complain/<int:pk>',views.view_complain,name='view-complain'),
 
 ]

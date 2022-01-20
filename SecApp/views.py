@@ -1,3 +1,4 @@
+import re
 from django.db.models.manager import EmptyManager
 from django.http.response import Http404, HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -6,6 +7,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from random import randrange, choices
 from MemberApp import models as mm
+from datetime import datetime
 
 
 # Create your views here.
@@ -317,3 +319,22 @@ def gallery(request):
         )
     photos = Gallery.objects.all()[::-1]
     return render(request,'gallery.html',{'photos':photos,'uid':uid})
+
+def manage_complains(request):
+    uid = SecUser.objects.get(email=request.session['email'])
+    complains = mm.Complain.objects.all()[::-1]
+    return render(request,'manage-complains.html',{'complains':complains,'uid':uid})
+
+def complain_status(request,pk):
+    complain = mm.Complain.objects.get(id=pk)
+    uid = SecUser.objects.get(email=request.session['email'])
+    complain.solve_by = uid
+    complain.status = True
+    complain.solved_at = datetime.now()
+    complain.save()
+    return redirect('manage-complains')
+    
+def view_complain(request,pk):
+    uid = SecUser.objects.get(email=request.session['email'])
+    complain = mm.Complain.objects.get(id=pk)
+    return render(request,'view-complain.html',{'uid':uid,'complain':complain})
