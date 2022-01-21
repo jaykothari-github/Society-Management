@@ -14,4 +14,6 @@ urlpatterns = [
     path('member-complain/',views.member_complain,name='member-complain'),
     path('member-view-complain/',views.member_view_complain,name='member-view-complain'),
     path('member-detail-complain/<int:pk>',views.member_detail_complain,name='member-detail-complain'),
+    path('member-view-events/',views.member_view_events,name='member-view-events'),
+
 ]

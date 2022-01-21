@@ -127,3 +127,9 @@ def member_detail_complain(request,pk):
     member = Member.objects.get(email=request.session['memail'])
     complain = Complain.objects.get(id=pk)
     return render(request,'member-detail-complain.html',{'member':member,'complain':complain})
+
+
+def member_view_events(request):
+    member = Member.objects.get(email=request.session['memail'])
+    events = Event.objects.all()[::-1]
+    return render(request,'member-view-events.html',{'member':member,'events':events})
