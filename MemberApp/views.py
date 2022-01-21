@@ -9,12 +9,13 @@ from django.core.mail import send_mail
 def index(request):
     event_count = Event.objects.all().count()
     member_count = Member.objects.all().count()
+    complain_count = Complain.objects.all().count()
     try:
         member = Member.objects.get(email=request.session['memail'])
         photos = list(sm.Gallery.objects.all())[-1:-9:-1]
-        return render(request,'member-index.html',{'member':member,'photos':photos,'event_count':event_count,'member_count':member_count})
+        return render(request,'member-index.html',{'complain_count':complain_count,'member':member,'photos':photos,'event_count':event_count,'member_count':member_count})
     except:
-        return render(request,'member-index.html',{'event_count':event_count,'member_count':member_count})
+        return render(request,'member-index.html',{'event_count':event_count,'complain_count':complain_count,'member_count':member_count})
 
 def member_login(request):
     try:

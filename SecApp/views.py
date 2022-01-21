@@ -105,12 +105,15 @@ def index(request):
         uid = SecUser.objects.get(email=request.session['email'])
         mem_count = mm.Member.objects.all().count()
         event_count = mm.Event.objects.all().count()
+        complain_count = mm.Complain.objects.filter(status=False).count()
         try:
             new_members = mm.Member.objects.all()[-5:]
+            complains = mm.Complain.objects.filter(status=False)[-1:-7:-1]
         except:
+            complains = mm.Complain.objects.filter(status=False)
             new_members = mm.Member.objects.all()[::-1]
 
-        return render(request,'index.html',{'uid':uid,'new_members':new_members,'mem_count':mem_count,'event_count':event_count})
+        return render(request,'index.html',{'uid':uid,'complain_count':complain_count,'complains':complains,'new_members':new_members,'mem_count':mem_count,'event_count':event_count})
 
     except:
         return render(request,'sign-in.html',{'msg':"session has been expired"})
